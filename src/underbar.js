@@ -39,13 +39,10 @@
   // last element.
   _.last = function(array, n) {
     var len = array.length;
-    if (n === undefined) {
-      return array[len - 1];
-    }
     if (n >= len) {
       return array;
     }
-    return array.slice(len-n,len);
+    return n === undefined ? array[len - 1] : array.slice(len-n, len);
   };
 
   // Call iterator(value, key, collection) for each element of collection.
