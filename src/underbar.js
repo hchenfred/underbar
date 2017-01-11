@@ -119,9 +119,9 @@
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
     var result = [];
-    for (var i = 0; i < collection.length; i++) {
-      result.push(iterator(collection[i], i, collection));
-    }
+    _.each(collection, function(item) {
+      result.push(iterator(item));
+    });
     return result;
   };
 
@@ -387,6 +387,13 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    return _.map(collection, function(item, i, collection) {
+      if (typeof functionOrKey === 'function') {
+        return functionOrKey.apply(item, args);
+      } else {
+        return item[functionOrKey].apply(item, args);
+      } 
+    });
   };
 
   // Sort the object's values by a criterion produced by an iterator.
