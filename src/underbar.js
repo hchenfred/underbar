@@ -254,7 +254,7 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    var result = arguments[0];
+    var result = obj;
     for (var i = 1; i < arguments.length; i++) {
       for (var key in arguments[i]) {
         result[key] = arguments[i][key];
@@ -401,6 +401,36 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    if (typeof iterator === 'function') {
+      return collection.sort(compare);
+    } else {
+      return collection.sort(compareProperty);
+    }
+
+    function compare(a, b) {
+      if (iterator(a) < iterator(b)) {
+        return -1;
+      }
+
+      if (iterator(a) > iterator(b)) {
+        return 1;
+      }
+
+      return 0;
+    }
+
+    function compareProperty(a, b) {
+      if (a[iterator] < b[iterator]) {
+        return -1;
+      }
+
+      if (a[iterator] > b[iterator]) {
+        return 1;
+      }
+
+      return 0;
+    }
+   
   };
 
   // Zip together two or more arrays with elements of the same index
